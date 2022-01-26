@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //析构函数
 MainWindow::~MainWindow()
 {
-    delete ui;
     stop(); //关闭程序时确保关闭串口
+    delete ui;
 }
 //刷新端口列表
 void MainWindow::refreshPortList()
