@@ -1,4 +1,6 @@
 #include "mainwindow.hh"
+#include "qbluetoothlocaldevice.h"
+#include "qbluetoothsocket.h"
 #include "ui_mainwindow.h"
 
 //构造函数
@@ -10,8 +12,44 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //析构函数
 MainWindow::~MainWindow()
 {
-    stop(); //关闭程序时确保关闭串口
+    stopPort(); //关闭程序时确保关闭串口
     delete ui;
+}
+//系统初始化
+void MainWindow::init()
+{
+    addDebugInfo("系统正在初始化...");            //打印日志信息
+    this->setWindowTitle("可穿戴设备上位机程序"); //设置标题
+    this->setWindowIcon(QIcon(":/img/icon.svg")); //设置图标
+    //隐藏绿色状态灯
+    ui->label_7->hide();
+    ui->label_10->hide();
+    //创建QSerialPort和QBluetoothDeviceDiscoveryAgent对象的实例
+    this->m_serialPort = new QSerialPort(this);
+    this->discover = new QBluetoothDeviceDiscoveryAgent(this);
+
+    //刷新列表
+    refreshPortList();
+    refreshBluetoothList();
+    //链接刷新按钮
+    connect(ui->refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshPortList);
+    connect(ui->refreshBtn_b, &QPushButton::clicked, this, &MainWindow::refreshBluetoothList);
+    //链接保存按钮
+    connect(ui->saveBtn, &QPushButton::clicked, this, &MainWindow::saveDebugInfo);
+    //链接开始按钮
+    connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::startPort);
+    //链接结束按钮
+    connect(ui->overBtn, &QPushButton::clicked, this, &MainWindow::stopPort);
+
+    //链接连接按钮
+    connect(ui->connectBtn, &QPushButton::clicked, this, &MainWindow::connectBluetooth);
+    //链接下拉按钮
+    //注意：Qt5的新connect语法中使用这两个信号时需要通过函数指针来指明使用的是重载中的哪一个
+    void (QComboBox::*fp)(int) = &QComboBox::currentIndexChanged;
+    connect(ui->portBox, fp, this, &MainWindow::setPort);
+    connect(ui->bluetoothBox, fp, this, &MainWindow::setBluetooth);
+    //链接蓝牙扫描完成信号，完成时打印日志信息
+    connect(discover, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() { addDebugInfo("系统初始化完成！"); });
 }
 //刷新端口列表
 void MainWindow::refreshPortList()
@@ -33,6 +71,18 @@ void MainWindow::refreshPortList()
 //刷新蓝牙列表
 void MainWindow::refreshBluetoothList()
 {
+    //判断本机蓝牙设备是否可用
+    this->localBluetooth = new QBluetoothLocalDevice(this);
+    if (!localBluetooth->isValid())
+    {
+        localBluetooth->powerOn();
+        addDebugInfo("本机蓝牙不可用，已尝试打开本机蓝牙，请重试或手动开启！");
+        return;
+    }
+    // localBluetooth必须用完即删，因为isValid信息只在创建时更新，
+    //若运行中途蓝牙状态发生改变，不重新创建实例的话无法判断蓝牙状态。
+    delete localBluetooth;
+
     discover->setLowEnergyDiscoveryTimeout(5000); //设置
     //连接扫描完成信号
     connect(discover, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() {
@@ -51,6 +101,26 @@ void MainWindow::refreshBluetoothList()
     discover->start(); //开始扫描
     addDebugInfo("开始扫描蓝牙列表...");
 }
+//刷新蓝牙连接列表
+void MainWindow::refreshPairedList()
+{
+    //报错好像是说Qt没有在Windows平台实现这个功能
+    /*
+    //依次判断列表蓝牙设备是否已配对
+    this->localBluetooth = new QBluetoothLocalDevice(this);
+    for (int i = 0; i < bluetoothNum; i++)
+    {
+        QBluetoothLocalDevice::Pairing pairingStatus = localBluetooth->pairingStatus(bluetoothList.at(i).address());
+        if (pairingStatus == QBluetoothLocalDevice::Paired)
+        {
+            ui->pairedBox->addItem(bluetoothList.at(i).name());
+        }
+    }
+    delete localBluetooth;
+    */
+    ui->pairedBox->clear();
+    ui->pairedBox->addItem(ui->bluetoothBox->currentText());
+}
 //保存日志信息
 void MainWindow::saveDebugInfo()
 {
@@ -66,8 +136,8 @@ void MainWindow::saveDebugInfo()
     //弹出成功对话框
     QMessageBox::information(this, tr("保存日志"), tr("保存成功！"));
 }
-//开始测试
-void MainWindow::start()
+//开始串口测试
+void MainWindow::startPort()
 {
     //检查可用端口
     if (this->portNum == 0)
@@ -111,8 +181,8 @@ void MainWindow::start()
         addDebugInfo("开启成功，开始记录数据！");
     }
 }
-//停止测试
-void MainWindow::stop()
+//停止串口测试
+void MainWindow::stopPort()
 {
     //关闭串口
     m_serialPort->clear();
@@ -137,48 +207,15 @@ void MainWindow::setPort()
         this->port = this->portList.at(ui->portBox->currentIndex()).portName();
     }
 }
-//设置当前所选蓝牙名称
+//设置当前所选蓝牙
 void MainWindow::setBluetooth()
 {
     //检查下拉列表是否为空
     if (ui->bluetoothBox->currentIndex() != -1)
     {
         //将当前下拉列表所选项保存到bluetooth
-        this->bluetooth = ui->bluetoothBox->currentText();
+        this->bluetooth = bluetoothList.at(ui->bluetoothBox->currentIndex());
     }
-}
-//系统初始化
-void MainWindow::init()
-{
-    addDebugInfo("系统正在初始化...");            //打印日志信息
-    this->setWindowTitle("可穿戴设备上位机程序"); //设置标题
-    this->setWindowIcon(QIcon(":/img/icon.svg")); //设置图标
-    //隐藏绿色状态灯
-    ui->label_7->hide();
-    ui->label_10->hide();
-    //创建QSerialPort和QBluetoothDeviceDiscoveryAgent对象的实例
-    this->m_serialPort = new QSerialPort();
-    this->discover = new QBluetoothDeviceDiscoveryAgent(this);
-    //刷新列表
-    refreshPortList();
-    refreshBluetoothList();
-    //链接刷新按钮
-    connect(ui->refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshPortList);
-    connect(ui->refreshBtn_b, &QPushButton::clicked, this, &MainWindow::refreshBluetoothList);
-    //链接保存按钮
-    connect(ui->saveBtn, &QPushButton::clicked, this, &MainWindow::saveDebugInfo);
-    //链接开始按钮
-    connect(ui->startBtn, &QPushButton::clicked, this, &MainWindow::start);
-    //链接结束按钮
-    connect(ui->overBtn, &QPushButton::clicked, this, &MainWindow::stop);
-
-    //链接下拉按钮
-    //注意：Qt5的新connect语法中使用这两个信号时需要通过函数指针来指明使用的是重载中的哪一个
-    void (QComboBox::*fp)(int) = &QComboBox::currentIndexChanged;
-    connect(ui->portBox, fp, this, &MainWindow::setPort);
-    connect(ui->bluetoothBox, fp, this, &MainWindow::setBluetooth);
-    //链接蓝牙扫描完成信号，完成时打印日志信息
-    connect(discover, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() { addDebugInfo("系统初始化完成！"); });
 }
 //接收串口数据
 void MainWindow::receiveData()
@@ -195,4 +232,41 @@ void MainWindow::addDebugInfo(const QString &text)
     //在QTextEdit对象中打印带时间前缀的日志信息
     ui->debugText->append(QString::number(hour) + ":" + QString::number(minute) + ":" + QString::number(second) + " " +
                           text);
+}
+//蓝牙配对
+void MainWindow::connectBluetooth()
+{
+    //检查是否正确选择蓝牙设备
+    if (ui->bluetoothBox->currentIndex() == -1)
+    {
+        addDebugInfo("请先选择要配对的设备！");
+        return;
+    }
+    addDebugInfo("正在尝试连接设备：" + bluetooth.name());
+    this->socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol, this);
+    socket->connectToService(bluetooth.address(), bluetooth.deviceUuid());
+    connect(socket, &QBluetoothSocket::connected, this, [this] {
+        addDebugInfo("蓝牙连接成功！");
+        refreshPairedList();
+        ui->label_10->show();
+        ui->label_9->hide();
+    });
+    //注意：Qt5的新connect语法中使用这个信号时需要通过函数指针来指明使用的是重载中的哪一个
+    void (QBluetoothSocket::*fp)(QBluetoothSocket::SocketError) = &QBluetoothSocket::error;
+    connect(socket, fp, this, [this] {
+        addDebugInfo("蓝牙连接失败！");
+        ui->label_9->show();
+        ui->label_10->hide();
+        delete socket;
+    });
+}
+void MainWindow::disconnectBluetooth()
+{
+    socket->disconnectFromService();
+    connect(socket, &QBluetoothSocket::disconnected, this, [this] {
+        addDebugInfo("蓝牙断开成功！");
+        refreshPairedList();
+        ui->label_10->show();
+        ui->label_9->hide();
+    });
 }

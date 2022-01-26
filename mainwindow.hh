@@ -1,11 +1,17 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
+#include "qbluetoothaddress.h"
+#include "qbluetoothdeviceinfo.h"
+#include "qbluetoothsocket.h"
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothDeviceInfo>
+#include <QBluetoothLocalDevice>
 #include <QBluetoothServer>
+#include <QBluetoothSocket>
 #include <QDebug>
 #include <QFileDialog>
+#include <QIODevice>
 #include <QList>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -26,12 +32,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
   public:
+    QBluetoothSocket *socket;                  //蓝牙连接
+    QBluetoothLocalDevice *localBluetooth;     //本机蓝牙设备
     QSerialPort *m_serialPort;                 //串口实例
     QList<QSerialPortInfo> portList;           //串口列表
     QBluetoothDeviceDiscoveryAgent *discover;  //蓝牙扫描实例
     QList<QBluetoothDeviceInfo> bluetoothList; //蓝牙列表
     QString port;                              //当前所选串口端口号
-    QString bluetooth;                         //当前所选蓝牙名称
+    QBluetoothDeviceInfo bluetooth;            //当前所选蓝牙
 
     //当前时间
     QTime now;
@@ -46,14 +54,17 @@ class MainWindow : public QMainWindow
     void refreshPortList();                 //刷新端口列表
     void refreshBluetoothList();            //刷新蓝牙列表
     void saveDebugInfo();                   //保存日志信息
-    void start();                           //开始测试
+    void startPort();                       //开始串口测试
     void getTime();                         //获取当前时间
     void setPort();                         //设置当前所选串口端口号
     void setBluetooth();                    //设置当前所选蓝牙名称
-    void stop();                            //停止测试
+    void stopPort();                        //停止串口测试
     void init();                            //系统初始化
     void receiveData();                     //结束串口数据
     void addDebugInfo(const QString &text); //打印日志信息
+    void connectBluetooth();                //蓝牙连接
+    void disconnectBluetooth();             //蓝牙断开
+    void refreshPairedList();               //刷新蓝牙连接列表
 
   private:
     Ui::MainWindow *ui;

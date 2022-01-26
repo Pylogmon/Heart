@@ -273,12 +273,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="matchBth">
+             <widget class="QPushButton" name="connectBtn">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="text">
-               <string>配对</string>
+               <string>连接</string>
               </property>
              </widget>
             </item>
@@ -289,24 +289,14 @@
             <item>
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>已配对</string>
+               <string>当前连接设备</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="matchBox">
+             <widget class="QComboBox" name="pairedBox">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="connectBtn">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="text">
-               <string>连接</string>
               </property>
              </widget>
             </item>
@@ -563,22 +553,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>696</x>
-     <y>74</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>connectBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>label_10</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>648</x>
-     <y>73</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>708</x>
      <y>74</y>
     </hint>
    </hints>
