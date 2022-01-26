@@ -108,7 +108,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -209,7 +209,7 @@
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>结束</string>
+                 <string>停止</string>
                 </property>
                </widget>
               </item>
@@ -392,7 +392,7 @@
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="text">
-               <string>结束</string>
+               <string>停止</string>
               </property>
              </widget>
             </item>

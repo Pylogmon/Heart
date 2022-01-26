@@ -26,13 +26,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
   public:
-    QSerialPort *m_serialPort;
-    QList<QSerialPortInfo> portList;
-    QBluetoothDeviceDiscoveryAgent *discover;
-    QList<QBluetoothDeviceInfo> bluetoothList;
-    QString port;
-    QString bluetooth;
+    QSerialPort *m_serialPort;                 //串口实例
+    QList<QSerialPortInfo> portList;           //串口列表
+    QBluetoothDeviceDiscoveryAgent *discover;  //蓝牙扫描实例
+    QList<QBluetoothDeviceInfo> bluetoothList; //蓝牙列表
+    QString port;                              //当前所选串口端口号
+    QString bluetooth;                         //当前所选蓝牙名称
 
+    //当前时间
     QTime now;
     int hour;
     int minute;
@@ -42,17 +43,17 @@ class MainWindow : public QMainWindow
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void refreshPortList();
-    void refreshBluetoothList();
-    void saveDebugInfo();
-    void start();
-    void getTime();
-    void setPort();
-    void setBluetooth();
-    void stop();
-    void init();
-    void receiveData();
-    void addDebugInfo(const QString &text);
+    void refreshPortList();                 //刷新端口列表
+    void refreshBluetoothList();            //刷新蓝牙列表
+    void saveDebugInfo();                   //保存日志信息
+    void start();                           //开始测试
+    void getTime();                         //获取当前时间
+    void setPort();                         //设置当前所选串口端口号
+    void setBluetooth();                    //设置当前所选蓝牙名称
+    void stop();                            //停止测试
+    void init();                            //系统初始化
+    void receiveData();                     //结束串口数据
+    void addDebugInfo(const QString &text); //打印日志信息
 
   private:
     Ui::MainWindow *ui;
