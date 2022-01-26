@@ -2,7 +2,7 @@
 name: Bug 反馈
 about: 帮助我改进项目
 title: "[Bug]"
-labels: bug
+labels: ''
 assignees: ambition-echo
 
 ---
