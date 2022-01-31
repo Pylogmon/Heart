@@ -1,9 +1,10 @@
-#ifndef MAINWINDOW_HH
+﻿#ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
+//确保MSVC编译器下中文显示正常
+#if _MSC_VER >= 1600
+#pragma execution_character_set("utf-8")
+#endif
 
-#include "qbluetoothaddress.h"
-#include "qbluetoothdeviceinfo.h"
-#include "qbluetoothsocket.h"
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothDeviceInfo>
 #include <QBluetoothLocalDevice>
@@ -50,7 +51,7 @@ class MainWindow : public QMainWindow
     int portNum;
 
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+
     void refreshPortList();                 //刷新端口列表
     void refreshBluetoothList();            //刷新蓝牙列表
     void saveDebugInfo();                   //保存日志信息
@@ -65,7 +66,8 @@ class MainWindow : public QMainWindow
     void connectBluetooth();                //蓝牙连接
     void disconnectBluetooth();             //蓝牙断开
     void refreshPairedList();               //刷新蓝牙连接列表
-
+    void connectedInfo();
+    ~MainWindow();
   private:
     Ui::MainWindow *ui;
 };
