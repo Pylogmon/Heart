@@ -142,7 +142,14 @@ void MainWindow::startPort()
             m_serialPort->close();
         }
         //设置要打开的串口号
-        m_serialPort->setPortName(this->port);
+        m_serialPort->setPortName(this->port.portName());
+        // Linux下需要打开串口的权限
+        int sys = SYS;
+        if (sys == 2)
+        {
+            QString command = "pkexec chmod 777 /dev/" + this->port.portName();
+            system(command.toStdString().data());
+        }
         //尝试打开串口
         if (!m_serialPort->open(QIODevice::ReadWrite))
         {
@@ -171,10 +178,13 @@ void MainWindow::startPort()
 void MainWindow::stopPort()
 {
     //关闭串口
-    m_serialPort->clear();
-    m_serialPort->close();
-    addDebugInfo("串口已关闭！");
-    ui->label_6->setStyleSheet("font: 700 20pt 'Microsoft YaHei UI';color: rgb(255, 0, 0);");
+    if (m_serialPort->isOpen())
+    {
+        m_serialPort->clear();
+        m_serialPort->close();
+        addDebugInfo("串口已关闭！");
+        ui->label_6->setStyleSheet("font: 700 20pt 'Microsoft YaHei UI';color: rgb(255, 0, 0);");
+    }
 }
 //获取当前时间
 void MainWindow::getTime()
@@ -191,7 +201,7 @@ void MainWindow::setPort()
     if (ui->portBox->currentIndex() != -1)
     {
         //将当前下拉列表所选项保存到port
-        this->port = this->portList.at(ui->portBox->currentIndex()).portName();
+        this->port = this->portList.at(ui->portBox->currentIndex());
     }
 }
 //设置当前所选蓝牙
@@ -220,14 +230,16 @@ void MainWindow::addDebugInfo(const QString &text)
     ui->debugText->append(QString::number(hour) + ":" + QString::number(minute) + ":" + QString::number(second) + " " +
                           text);
 }
-void MainWindow::connectBluetooth(){
+void MainWindow::connectBluetooth()
+{
     addDebugInfo("开始连接！");
     static QString serviceUuid("00001106-0000-1000-8000-00805F9B34FB");
     socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
-    socket->connectToService(bluetooth.address(), QBluetoothUuid(serviceUuid),QIODevice::ReadWrite);
-    //connect(socket,SIGNAL(readyRead()), this, SLOT(readBluetoothDataEvent()));
-    connect(socket,&QBluetoothSocket::connected, this, &MainWindow::connectedInfo);
+    socket->connectToService(bluetooth.address(), QBluetoothUuid(serviceUuid), QIODevice::ReadWrite);
+    // connect(socket,SIGNAL(readyRead()), this, SLOT(readBluetoothDataEvent()));
+    connect(socket, &QBluetoothSocket::connected, this, &MainWindow::connectedInfo);
 }
-void MainWindow::connectedInfo(){
+void MainWindow::connectedInfo()
+{
     addDebugInfo("连接成功！");
 }

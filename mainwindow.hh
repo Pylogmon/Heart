@@ -1,4 +1,11 @@
-﻿#ifndef MAINWINDOW_HH
+﻿#ifdef _WIN32
+#define SYS 1
+#elif __linux__
+#define SYS 2
+#elif __APPLE__
+#define SYS 3
+#endif
+#ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 //确保MSVC编译器下中文显示正常
 #if _MSC_VER >= 1600
@@ -19,7 +26,9 @@
 #include <QPushButton>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QString>
 #include <QTime>
+#include <cstdlib>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -39,7 +48,7 @@ class MainWindow : public QMainWindow
     QList<QSerialPortInfo> portList;           //串口列表
     QBluetoothDeviceDiscoveryAgent *discover;  //蓝牙扫描实例
     QList<QBluetoothDeviceInfo> bluetoothList; //蓝牙列表
-    QString port;                              //当前所选串口端口号
+    QSerialPortInfo port;                      //当前所选串口端口号
     QBluetoothDeviceInfo bluetooth;            //当前所选蓝牙
 
     //当前时间
@@ -68,6 +77,7 @@ class MainWindow : public QMainWindow
     void refreshPairedList();               //刷新蓝牙连接列表
     void connectedInfo();
     ~MainWindow();
+
   private:
     Ui::MainWindow *ui;
 };
