@@ -29,6 +29,9 @@
 #include <QString>
 #include <QTime>
 #include <cstdlib>
+#include <QChartView>
+#include <QLineSeries>
+#include <QChart>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -76,6 +79,7 @@ class MainWindow : public QMainWindow
     void disconnectBluetooth();             //蓝牙断开
     void refreshPairedList();               //刷新蓝牙连接列表
     void connectedInfo();
+    void addChart();
     ~MainWindow();
 
   private:

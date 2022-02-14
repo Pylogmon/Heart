@@ -1,4 +1,4 @@
-QT       += core gui serialport bluetooth
+QT       += core gui serialport bluetooth charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

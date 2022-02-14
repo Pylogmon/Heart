@@ -1,16 +1,16 @@
 ﻿#include "mainwindow.hh"
-#include "qbluetoothlocaldevice.h"
-#include "qbluetoothsocket.h"
 #include "ui_mainwindow.h"
 //确保MSVC编译器下中文显示正常
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
 #endif
+QT_CHARTS_USE_NAMESPACE
 //构造函数
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     init(); //初始化
+    addChart();
 }
 
 //析构函数
@@ -53,6 +53,27 @@ void MainWindow::init()
     connect(ui->bluetoothBox, fp, this, &MainWindow::setBluetooth);
     //链接蓝牙扫描完成信号，完成时打印日志信息
     connect(discover, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() { addDebugInfo("系统初始化完成！"); });
+}
+//添加统计Chart
+void MainWindow::addChart(){
+    QLineSeries *series = new QLineSeries();
+
+    series->append(0, 5);
+    series->append(2, 5);
+    series->append(4, 5);
+    series->append(6, 5);
+    series->append(8, 5);
+    //*series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("心电实时图像");
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    ui->gridLayout_6->addWidget(chartView,1,0);
 }
 //刷新端口列表
 void MainWindow::refreshPortList()
@@ -233,7 +254,7 @@ void MainWindow::addDebugInfo(const QString &text)
 void MainWindow::connectBluetooth()
 {
     addDebugInfo("开始连接！");
-    static QString serviceUuid("00001106-0000-1000-8000-00805F9B34FB");
+    static QString serviceUuid("83745284-7465-6374-8374-17264C7D95BF");
     socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
     socket->connectToService(bluetooth.address(), QBluetoothUuid(serviceUuid), QIODevice::ReadWrite);
     // connect(socket,SIGNAL(readyRead()), this, SLOT(readBluetoothDataEvent()));
