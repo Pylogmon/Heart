@@ -4,12 +4,12 @@ on:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/windows-mingw.yml'
+      - '.github/workflows/Windows-minGW.yml'
   pull_request:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/windows-mingw.yml' 
+      - '.github/workflows/Windows-minGW.yml' 
 jobs:
   build:
     name: Build

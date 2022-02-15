@@ -5,12 +5,12 @@ on:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/Linux.yml'
   pull_request:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/ubuntu.yml' 
+      - '.github/workflows/Linux.yml' 
 jobs:
   build:
     name: Build
