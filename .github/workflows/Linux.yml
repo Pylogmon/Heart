@@ -15,6 +15,9 @@ jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: heart
     strategy:
       matrix:
         os: [ubuntu-20.04]
@@ -28,7 +31,6 @@ jobs:
           version: ${{ matrix.qt_ver }}
           cached: 'false'
           modules: qtcharts
-      working-directory: heart
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
