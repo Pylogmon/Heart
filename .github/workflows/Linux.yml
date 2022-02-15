@@ -28,6 +28,7 @@ jobs:
           version: ${{ matrix.qt_ver }}
           cached: 'false'
           modules: qtcharts
+      working-directory: heart
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
@@ -35,3 +36,9 @@ jobs:
         run: |
           qmake
           make
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: upload
+          path: heart/build/
+          if-no-files-found: error
