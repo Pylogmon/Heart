@@ -1,3 +1,4 @@
+name: Linux
 on: push
 
 jobs:
@@ -27,5 +28,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Heart
-          path: bin/release/
+          path: /home/runner/work/Heart
           if-no-files-found: error
