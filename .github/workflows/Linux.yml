@@ -24,9 +24,11 @@ jobs:
         run: |
           qmake
           make
+          pwd
+          ls
       - name: upload
         uses: actions/upload-artifact@v2
         with:
           name: Heart
-          path: /home/runner/work/Heart
+          path: /home/runner/work/Heart/Heart
           if-no-files-found: error
