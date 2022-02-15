@@ -20,7 +20,6 @@ jobs:
         os: [ubuntu-20.04]
         qt_ver: [5.15.2]
         qt_arch: [gcc_64]
-        mo
 
     steps:
       - name: Install Qt
