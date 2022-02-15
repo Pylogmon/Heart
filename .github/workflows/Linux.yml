@@ -5,25 +5,21 @@ on:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/Linux.yml'
+      - '.github/workflows/ubuntu.yml'
   pull_request:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/Linux.yml' 
+      - '.github/workflows/ubuntu.yml' 
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        working-directory: heart
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-        qt_ver: [5.15.2]
+        os: [ubuntu-18.04,ubuntu-20.04]
+        qt_ver: [5.9.9,5.12.10,5.15.2]
         qt_arch: [gcc_64]
-
     steps:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -38,9 +34,3 @@ jobs:
         run: |
           qmake
           make
-      - name: upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: upload
-          path: heart/build/
-          if-no-files-found: error
