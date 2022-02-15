@@ -1,16 +1,16 @@
-name: Ubuntu
+name: Linux
 # Qt官方没有linux平台的x86包
 on: 
   push:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/Linux.yml'
   pull_request:
     paths:
       - '*.pro'
       - 'src/**'
-      - '.github/workflows/ubuntu.yml' 
+      - '.github/workflows/Linux.yml' 
 jobs:
   build:
     name: Build
