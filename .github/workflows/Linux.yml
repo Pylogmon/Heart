@@ -1,16 +1,5 @@
-name: Linux
-# Qt官方没有linux平台的x86包
-on: 
-  push:
-    paths:
-      - '*.pro'
-      - 'src/**'
-      - '.github/workflows/Linux.yml'
-  pull_request:
-    paths:
-      - '*.pro'
-      - 'src/**'
-      - '.github/workflows/Linux.yml' 
+on: push
+
 jobs:
   build:
     name: Build
@@ -34,3 +23,9 @@ jobs:
         run: |
           qmake
           make
+      - name: upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build/
+          if-no-files-found: error
