@@ -60,10 +60,10 @@ void MainWindow::addChart(){
 
     series->append(0, 5);
     series->append(2, 5);
-    series->append(4, 5);
+    series->append(4, 6);
     series->append(6, 5);
     series->append(8, 5);
-    //*series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
 
     QChart *chart = new QChart();
     chart->legend()->hide();
