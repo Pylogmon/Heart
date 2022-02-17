@@ -98,9 +98,10 @@ jobs:
 
       - name: show dir
         run: |
-          ls Heart
+          pwd
+          ls -l
       - name: rename Heart_Linux
-        run: mv /home/runner/work/Heart/Heart/Heart_Linux.zip release/Heart_Linux.zip
+        run: mv /home/runner/work/Heart/Heart/Heart_Linux release/Heart_Linux.zip
 
       - name: get Heart_Windows
         uses: actions/download-artifact@v2
@@ -108,7 +109,7 @@ jobs:
           name: Heart_Windows
 
       - name: rename Heart_Windows
-        run: mv /home/runner/work/Heart/Heart/Heart_Windows.zip release/Heart_Windows.zip
+        run: mv /home/runner/work/Heart/Heart/Heart_Windows release/Heart_Windows.zip
 
       - name: Release
         uses: svenstaro/upload-release-action@v2
