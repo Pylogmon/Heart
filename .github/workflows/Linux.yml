@@ -32,6 +32,6 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@v2
         with:
-          name: Heart_linux_x64
+          name: Heart_linux
           path: /home/runner/work/Heart/Heart/Heart
           if-no-files-found: error
