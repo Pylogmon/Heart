@@ -67,8 +67,11 @@ jobs:
           fetch-depth: 1
       #编译构建
       - name: Build
+        shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           qmake
           make
           ls
+          md Heart
+          copy D:\a\Heart\Heart\Heart.exe D:\a\Heart\Heart\Heart\Heart.exe 
