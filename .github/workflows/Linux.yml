@@ -2,30 +2,33 @@ name: Linux
 on: push
 
 jobs:
+  #编译
   build:
+    #基本信息
     name: Build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04,ubuntu-20.04]
-        qt_ver: [5.15.2]
-        qt_arch: [gcc_64]
+    runs-on: ubuntu-latest
+
     steps:
+      #安装Qt
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_ver }}
-          cached: 'false'
+          version: '5.15.2'
+          host: 'linux'
+          arch: 'gcc_64'
           modules: qtcharts
-      - uses: actions/checkout@v2
+          target: 'desktop'
+      #拉取仓库
+      - name: checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
+      #编译构建
       - name: build ubuntu
         run: |
           qmake
           make
-          pwd
-          ls
+      #上传artifact
       - name: upload
         uses: actions/upload-artifact@v2
         with:
