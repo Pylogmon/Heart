@@ -36,22 +36,13 @@ jobs:
           path: /home/runner/work/Heart/Heart/Heart
           if-no-files-found: error
   #windows编译
-  My-Build-Windows:
+  Build-Windows:
     #运行平台
     name: Build on Windows
     runs-on: windows-2019
-
-    env:
-      targetName: Heart_Windows.exe
-      qt_ver: '5.15.2'          
-      qt_arch: 'win64_msvc2019_64'
-      msvc_arch: 'x64'
-      qt_arch_install: 'msvc2019_64'
-      qt_target: 'desktop'
-      archiveName: 'Heart_Windows'
     #编译步骤
     steps:
-      #安装Qt
+      #1安装Qt
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -60,28 +51,69 @@ jobs:
           arch: 'win64_msvc2019_64'
           modules: qtcharts
           target: 'desktop'
-      #拉取代码
+      #2拉取代码
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      #编译构建
+      #3编译构建
       - name: Build
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           qmake
           nmake
+      #4打包部署
       - name: package
         run: |
           md D:/a/Heart/Heart/build
           copy D:/a/Heart/Heart/release/Heart.exe D:/a/Heart/Heart/build
           windeployqt.exe D:/a/Heart/Heart/build/Heart.exe
-      #4上传artifact
+      #5上传artifact
       - name: upload
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Windows
           path: D:\a\Heart\Heart\build
           if-no-files-found: error
+  #上传release
+  upload-release:
+    #运行平台
+    runs-on: ubuntu-latest
+    #有新tag时运行
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    #编译完成时运行
+    needs:
+      - Build-Windows
+      - Build-Linux
+    #上传步骤
+    steps:
+      - name: Make dir
+        run: mkdir release
+
+      - name: get Heart_Linux
+        uses: actions/download-artifact@v2
+        with:
+          name: Heart_Linux
+
+      - name: rename Heart_Linux
+        run: mv Heart_Linux release/Heart_Linux.zip
+
+
+      - name: get Heart_Windows
+        uses: actions/download-artifact@v2
+        with:
+          name: Heart_Windows
+
+      - name: rename Heart_Windows
+        run: mv Heart_Windows release/Heart_Windows.zip
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.TOKEN }}
+          file: release/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
       
