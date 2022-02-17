@@ -74,9 +74,9 @@ jobs:
           nmake
       - name: package
         run: |
-        md D:/a/Heart/Heart/build
-        copy D:/a/Heart/Heart/release/Heart.exe D:/a/Heart/Heart/build
-        windeployqt.exe D:/a/Heart/Heart/build/Heart.exe
+          md D:/a/Heart/Heart/build
+          copy D:/a/Heart/Heart/release/Heart.exe D:/a/Heart/Heart/build
+          windeployqt.exe D:/a/Heart/Heart/build/Heart.exe
       #4上传artifact
       - name: upload
         uses: actions/upload-artifact@v2
