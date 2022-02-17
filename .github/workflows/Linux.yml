@@ -72,6 +72,10 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           qmake
           nmake
-          ls
-          md Heart
-          copy "D:\a\Heart\Heart\releaes\Heart.exe" "D:\a\Heart\Heart\Heart\Heart.exe" 
+      #4上传artifact
+      - name: upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Heart_Windows
+          path: D:\a\Heart\Heart\
+          if-no-files-found: error
