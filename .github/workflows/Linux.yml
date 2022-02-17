@@ -7,9 +7,9 @@ jobs:
     #基本信息
     name: Build
     runs-on: ubuntu-latest
-
+    #编译步骤
     steps:
-      #安装Qt
+      #1安装Qt
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -18,20 +18,20 @@ jobs:
           arch: 'gcc_64'
           modules: qtcharts
           target: 'desktop'
-      #拉取仓库
-      - name: checkout
+      #2拉取仓库
+      - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      #编译构建
-      - name: build ubuntu
+      #3编译构建
+      - name: Build
         run: |
           qmake
           make
-      #上传artifact
+      #4上传artifact
       - name: upload
         uses: actions/upload-artifact@v2
         with:
           name: Heart
-          path: /home/runner/work/Heart/Heart
+          path: /home/runner/work/Heart/Heart/Heart
           if-no-files-found: error
