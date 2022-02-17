@@ -79,3 +79,6 @@ jobs:
           name: Heart_Windows
           path: D:\a\Heart\Heart\
           if-no-files-found: error
+      -name: package
+      run: |
+        windeployqt.exe release/Heart.exe
