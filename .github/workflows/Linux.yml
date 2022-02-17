@@ -72,13 +72,16 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
           qmake
           nmake
+      - name: package
+        run: |
+        md D:/a/Heart/Heart/build
+        copy D:/a/Heart/Heart/release/Heart.exe D:/a/Heart/Heart/build
+        windeployqt.exe D:/a/Heart/Heart/build/Heart.exe
       #4上传artifact
       - name: upload
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Windows
-          path: D:\a\Heart\Heart\
+          path: D:\a\Heart\Heart\build
           if-no-files-found: error
-      -name: package
-      run: |
-        windeployqt.exe release/Heart.exe
+      
