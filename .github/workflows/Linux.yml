@@ -41,16 +41,14 @@ jobs:
     name: Build on Windows
     runs-on: windows-2019
 
-    strategy:
-      # 矩阵配置
-      matrix:
-        include:
-          - qt_ver: 5.15.2          
-            qt_arch: win64_msvc2019_64
-            msvc_arch: x64
-            qt_arch_install: msvc2019_64          
     env:
       targetName: Heart_Windows.exe
+      qt_ver: '5.15.2'          
+      qt_arch: 'win64_msvc2019_64'
+      msvc_arch: 'x64'
+      qt_arch_install: 'msvc2019_64'
+      qt_target: 'desktop'
+      archiveName: 'Heart_Windows'
     #编译步骤
     steps:
       #安装Qt
@@ -58,10 +56,11 @@ jobs:
         uses: jurplel/install-qt-action@v2
         with:
           # Version of Qt to install
-          version: 5.15.2
+          version: '5.15.2'
+          host: 'windows'
           # Target platform for build
           target: 'desktop'
-          arch: win64_msvc2019_64
+          arch: 'win64_msvc2019_64'
           aqtversion: '==2.0.5'          
       #拉取代码
       - name: Checkout
@@ -84,8 +83,8 @@ jobs:
       - name: package
         id: package      
         env:
-          archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
-          msvcArch: ${{ matrix.msvc_arch }}          
+          archiveName: ${env:qt_ver}-${env:qt_target}-${env:qt_arch}
+          msvcArch: ${env:msvc_arch}          
         shell: pwsh
         run: |
           & scripts\windows-publish.ps1 ${env:archiveName} ${env:targetName}
