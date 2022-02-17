@@ -36,7 +36,7 @@ jobs:
           path: /home/runner/work/Heart/Heart/Heart
           if-no-files-found: error
   #windows编译
-  Build-Windows:
+  My-Build-Windows:
     #运行平台
     name: Build on Windows
     runs-on: windows-2019
@@ -55,13 +55,11 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          # Version of Qt to install
           version: '5.15.2'
           host: 'windows'
-          # Target platform for build
-          target: 'desktop'
           arch: 'win64_msvc2019_64'
-          aqtversion: '==2.0.5'          
+          modules: qtcharts
+          target: 'desktop'
       #拉取代码
       - name: Checkout
         uses: actions/checkout@v2
@@ -69,31 +67,7 @@ jobs:
           fetch-depth: 1
       #编译构建
       - name: Build
-        id: build
-        shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ matrix.msvc_arch }}
           qmake
           make
-          echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
-          echo winSdkVer=%WindowsSdkVersion% >> %GITHUB_ENV%
-          echo vcToolsInstallDir=%VCToolsInstallDir% >> %GITHUB_ENV%
-          echo vcToolsRedistDir=%VCToolsRedistDir% >> %GITHUB_ENV%
-      # 打包 
-      - name: package
-        id: package      
-        env:
-          archiveName: ${env:qt_ver}-${env:qt_target}-${env:qt_arch}
-          msvcArch: ${env:msvc_arch}          
-        shell: pwsh
-        run: |
-          & scripts\windows-publish.ps1 ${env:archiveName} ${env:targetName}
-          # 记录packageName给后续step
-           $name = ${env:archiveName}
-           echo "::set-output name=packageName::$name"       
-      # tag 查询github-Release
-      # 上传artifacts          
-      - uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.package.outputs.packageName }}
-          path: ${{ steps.package.outputs.packageName }}
+          ls
