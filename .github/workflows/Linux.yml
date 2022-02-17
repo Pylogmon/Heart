@@ -62,7 +62,7 @@ jobs:
           target: 'desktop'
       #拉取代码
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.14.0
         with:
           fetch-depth: 1
       #编译构建
@@ -74,4 +74,4 @@ jobs:
           make
           ls
           md Heart
-          copy D:\a\Heart\Heart\Heart.exe D:\a\Heart\Heart\Heart\Heart.exe 
+          copy "D:\a\Heart\Heart\releaes\Heart.exe" "D:\a\Heart\Heart\Heart\Heart.exe" 
