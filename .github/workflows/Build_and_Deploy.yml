@@ -29,21 +29,21 @@ jobs:
           qmake
           make
       #4打包成zip
-      - name: Archive Release
+      - name: To zip
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           path: '/home/runner/work/Heart/Heart/Heart'
           filename: 'Heart_Linux.zip'
       #5上传artifact
-      - name: upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Linux.zip
           path: /home/runner/work/Heart/Heart/Heart_Linux.zip
           if-no-files-found: error
       #6发布release
-      - name: Release
+      - name: Upload Release
         if: startsWith(github.ref, 'refs/tags')
         uses: svenstaro/upload-release-action@v2
         with:
@@ -86,21 +86,21 @@ jobs:
           copy D:/a/Heart/Heart/release/Heart.exe D:/a/Heart/Heart/build
           windeployqt.exe D:/a/Heart/Heart/build/Heart.exe
       #5打包成zip
-      - name: Archive Release
+      - name: To zip
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           path: 'D:/a/Heart/Heart/build'
           filename: 'Heart_Windows.zip'
       #6上传artifact
-      - name: upload
+      - name: upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Windows.zip
           path: D:/a/Heart/Heart/Heart_Windows.zip
           if-no-files-found: error
       #7发布release
-      - name: Release
+      - name: Upload Release
         if: startsWith(github.ref, 'refs/tags')
         uses: svenstaro/upload-release-action@v2
         with:
