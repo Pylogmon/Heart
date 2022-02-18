@@ -3,9 +3,9 @@
 用Qt实现与下位机（单片机）进行通信的上位机程序
 ## 自动构建状态
 
-|[Build][build-link]|[License][license-link]| [Release][release-link]| [Download][download-link] |
-|-----------------|-----------------|-----------------|-----------------|
-|![build-badge] |![license-badge] |![release-badge] |![download-badge] |
+|[Build][build-link]|[License][license-link]| [Release][release-link]| [Download][download-link] | [Stars][stars-link] |
+|-----------------|-----------------|-----------------|-----------------|-----------------|
+|![build-badge] |![license-badge] |![release-badge] |![download-badge] |![stars-badge] |
 
 [build-link]: https://github.com/ambition-echo/Heart/actions?query=workflow%3ABuild
 [build-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Build
@@ -15,8 +15,11 @@
 
 [license-link]: https://github.com/ambition-echo/Heart/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/ambition-echo/Heart
+
 [download-link]: https://github.com/ambition-echo/Heart/releases
 [download-badge]: https://img.shields.io/github/downloads/ambition-echo/Heart/total
+[stars-link]: https://github.com/ambition-echo/Heart
+[stars-badge]: https://img.shields.io/github/stars/ambition-echo/Heart
 
 ## 软件截图
 ### 串口通信
