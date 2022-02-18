@@ -33,7 +33,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          path: '/home/runner/work/Heart/Heart/Heart'
+          path: 'Heart'
           filename: 'Heart_Linux.zip'
       #5上传artifact
       - name: Upload artifact
@@ -90,7 +90,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          path: 'D:/a/Heart/Heart/build'
+          path: 'build'
           filename: 'Heart_Windows.zip'
       #6上传artifact
       - name: upload artifact
