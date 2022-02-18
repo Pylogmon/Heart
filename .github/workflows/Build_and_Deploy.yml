@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Linux.zip
-          path: /home/runner/work/Heart/Heart/Heart_Linux.zip
+          path: /home/runner/work/Heart/Heart/Heart
           if-no-files-found: error
       #6发布release
       - name: Upload Release
@@ -97,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Heart_Windows.zip
-          path: D:/a/Heart/Heart/Heart_Windows.zip
+          path: D:/a/Heart/Heart/build
           if-no-files-found: error
       #7发布release
       - name: Upload Release
