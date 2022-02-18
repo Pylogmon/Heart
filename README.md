@@ -1,6 +1,21 @@
 # Heart
-
+## 简介
 用Qt实现与下位机（单片机）进行通信的上位机程序
+## 自动构建状态
+
+|[Build][build-link]|[License][license-link]| [Release][release-link]|
+|-----------------|-----------------|-----------------|
+|![build-badge] |![license-badge] |![release-badge] |
+
+[build-link]: https://github.com/ambition-echo/Heart/actions?query=workflow%3ABuild
+[build-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Build
+
+[release-link]: https://github.com/ambition-echo/Heart/releases
+[release-badge]: https://img.shields.io/github/v/release/ambition-echo/Heart
+
+[license-link]: https://github.com/ambition-echo/Heart/blob/master/LICENSE
+[license-badge]: https://img.shields.io/github/license/ambition-echo/Heart
+
 ## 软件截图
 ### 串口通信
 
