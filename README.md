@@ -12,13 +12,13 @@
 |![license-badge] |![release-badge] |![download-badge] |![stars-badge] |
 
 [windows-link]: https://github.com/ambition-echo/Heart/actions/workflows/Windows.yml
-[windows-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Windows
+[windows-badge]: https://github.com/ambition-echo/Heart/actions/workflows/Windows.yml/badge.svg
 
 [linux-link]: https://github.com/ambition-echo/Heart/actions/workflows/Linux.yml
-[linux-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Linux
+[linux-badge]: https://github.com/ambition-echo/Heart/actions/workflows/Linux.yml/badge.svg
 
 [macos-link]: https://github.com/ambition-echo/Heart/actions/workflows/MacOS.yml
-[macos-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/MacOS
+[macos-badge]: https://github.com/ambition-echo/Heart/actions/workflows/MacOS.yml/badge.svg
 
 [release-link]: https://github.com/ambition-echo/Heart/releases
 [release-badge]: https://img.shields.io/github/v/release/ambition-echo/Heart
