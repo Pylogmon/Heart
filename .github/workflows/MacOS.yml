@@ -21,10 +21,14 @@ jobs:
         run: |
           qmake
           make
+          pwd
+          ls
       # 打包
       - name: package
         run: |
           # 拷贝依赖
+          cd bin/release
+          ls
           macdeployqt bin/release/Heart.app -qmldir=. -verbose=1 -dmg
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
