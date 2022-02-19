@@ -3,15 +3,22 @@
 用Qt实现与下位机（单片机）进行通信的上位机程序
 ## 自动构建状态
 
-|[Linux][linux-link]|[Windows][windows-link]|[License][license-link]| [Release][release-link]| [Download][download-link] | [Stars][stars-link] |
-|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
-|![linux-badge] |![windows-badge] |![license-badge] |![release-badge] |![download-badge] |![stars-badge] |
+|[Linux][linux-link]|[Windows][windows-link]|[MacOS][macos-link]|
+|-------------------|-----------------------|-------------------|
+|![linux-badge] |![windows-badge] |![macos-badge] |
+
+|[License][license-link]| [Release][release-link]| [Download][download-link] | [Stars][stars-link] |
+|-------------------|-----------------------|-------------------|------------|
+|![license-badge] |![release-badge] |![download-badge] |![stars-badge] |
 
 [windows-link]: https://github.com/ambition-echo/Heart/actions/workflows/Windows.yml
 [windows-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Windows
 
 [linux-link]: https://github.com/ambition-echo/Heart/actions/workflows/Linux.yml
 [linux-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/Linux
+
+[macos-link]: https://github.com/ambition-echo/Heart/actions/workflows/MacOS.yml
+[macos-badge]: https://img.shields.io/github/workflow/status/ambition-echo/Heart/MacOS
 
 [release-link]: https://github.com/ambition-echo/Heart/releases
 [release-badge]: https://img.shields.io/github/v/release/ambition-echo/Heart
