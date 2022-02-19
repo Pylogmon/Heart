@@ -6,6 +6,7 @@ jobs:
     runs-on: macos-10.15
 
     steps:
+      #1安装Qt
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -14,24 +15,43 @@ jobs:
           arch: 'clang_64'
           modules: qtcharts
           target: 'desktop'
-      - uses: actions/checkout@v2
+      #2拉取代吗
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      - name: build macos
+      #3编译构建
+      - name: Build
         run: |
           qmake
           make
           pwd
           ls
-      # 打包
-      - name: package
+      #4打包
+      - name: Package
         run: |
           # 拷贝依赖
-          cd bin/release
-          ls
-          macdeployqt bin/release/Heart.app -qmldir=. -verbose=1 -dmg
-      # 上传artifacts          
-      - uses: actions/upload-artifact@v2
+          macdeployqt Heart.app -qmldir=. -verbose=1 -dmg
+      #5上传artifacts  
+      - name: Upload  artifacts       
+        uses: actions/upload-artifact@v2
         with:
           name: Heart_MacOS
-          path: bin/release/Heart.app
+          path: Heart.app
+      #6打包成zip
+      - name: To zip
+        if: startsWith(github.ref, 'refs/tags')
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          path: 'Heart.app'
+          filename: 'Heart_MacOS.zip'
+      #7发布release
+      - name: Upload Release
+        if: startsWith(github.ref, 'refs/tags')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.TOKEN }}
+          file: Heart_MacOS.zip
+          tag: ${{ github.ref }}
+          overwrite: true
