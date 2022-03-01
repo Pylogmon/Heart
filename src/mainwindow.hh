@@ -17,9 +17,12 @@
 #include <QBluetoothLocalDevice>
 #include <QBluetoothServer>
 #include <QBluetoothSocket>
+#include <QChart>
+#include <QChartView>
 #include <QDebug>
 #include <QFileDialog>
 #include <QIODevice>
+#include <QLineSeries>
 #include <QList>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -28,10 +31,8 @@
 #include <QSerialPortInfo>
 #include <QString>
 #include <QTime>
+#include <QUuid>
 #include <cstdlib>
-#include <QChartView>
-#include <QLineSeries>
-#include <QChart>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -39,12 +40,16 @@ namespace Ui
 class MainWindow;
 }
 QT_END_NAMESPACE
-
+QT_CHARTS_USE_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
   public:
+    int pointNum = 0;
+    QChartView *chartView;
+    QChart *chart;
+    QLineSeries *series;
     QBluetoothSocket *socket;                  //蓝牙连接
     QBluetoothLocalDevice *localBluetooth;     //本机蓝牙设备
     QSerialPort *m_serialPort;                 //串口实例
@@ -80,6 +85,8 @@ class MainWindow : public QMainWindow
     void refreshPairedList();               //刷新蓝牙连接列表
     void connectedInfo();
     void addChart();
+    void addPoint(int value);
+
     ~MainWindow();
 
   private:
