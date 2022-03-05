@@ -58,8 +58,8 @@ void MainWindow::init()
 void MainWindow::addChart()
 {
     series = new QLineSeries();
-    series->append(80, 0);
-    series->append(0, 80);
+    series->append(300, 0);
+    series->append(0, 50);
 
     chart = new QChart();
     chart->legend()->hide();
@@ -266,7 +266,7 @@ void MainWindow::connectedInfo()
 }
 void MainWindow::addPoint(int value)
 {
-    if (pointNum <= 80)
+    if (pointNum <= 300)
     {
         if (pointNum == 0)
         {
