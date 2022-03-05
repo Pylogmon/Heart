@@ -5,6 +5,7 @@ build-on-linux-job:
   image: archlinux:latest
   stage: build
   script:
+    - pacman -Sy --noconfirm
     - pacman -S qt6-base qt6-charts qt6-connectivity qt6-serialport --noconfirm
     - qmake
     - make
