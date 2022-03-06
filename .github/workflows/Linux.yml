@@ -6,7 +6,7 @@ jobs:
   Build-Linux:
     #运行平台
     name: Build on Linux
-    runs-on: ubuntu-latest
+    runs-on: archlinux-latest
     #编译步骤
     steps:
       #1安装Qt
