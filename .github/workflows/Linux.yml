@@ -1,5 +1,13 @@
 name: Linux
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
 
 jobs:
   #Linux编译
