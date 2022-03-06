@@ -4,7 +4,7 @@
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
 #endif
-
+QT_CHARTS_USE_NAMESPACE
 //构造函数
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -55,22 +55,33 @@ void MainWindow::init()
     connect(discover, &QBluetoothDeviceDiscoveryAgent::finished, this, [this]() { addDebugInfo("系统初始化完成！"); });
 }
 //添加统计Chart
+<<<<<<< HEAD
 void MainWindow::addChart()
 {
     series = new QLineSeries();
     series->append(300, 0);
     series->append(0, 50);
+=======
+void MainWindow::addChart(){
+    QLineSeries *series = new QLineSeries();
+>>>>>>> parent of 9150f85 (新增QChart添加数据点)
 
-    chart = new QChart();
+    series->append(0, 5);
+    series->append(2, 5);
+    series->append(4, 6);
+    series->append(6, 5);
+    series->append(8, 5);
+
+
+    QChart *chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
     chart->setTitle("心电实时图像");
 
-    chartView = new QChartView(chart);
+    QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-    ui->gridLayout_6->addWidget(chartView, 20, 80);
-    // connect(ui->clearBtn, &QPushButton::clicked, this, [this]() { addPoint(10); });
+    ui->gridLayout_6->addWidget(chartView,1,0);
 }
 //刷新端口列表
 void MainWindow::refreshPortList()
@@ -239,7 +250,6 @@ void MainWindow::receiveData()
     QByteArray hexData = info.toHex();         //信息转换为16进制
     //打印串口信息
     addDebugInfo("接收到串口数据：" + hexData);
-    addPoint(hexData.toInt());
 }
 //打印日志信息
 void MainWindow::addDebugInfo(const QString &text)
@@ -251,12 +261,10 @@ void MainWindow::addDebugInfo(const QString &text)
 }
 void MainWindow::connectBluetooth()
 {
-
-    QUuid id = QUuid::createUuid();
-    QString strId = id.toString();
     addDebugInfo("开始连接！");
+    static QString serviceUuid("83745284-7465-6374-8374-17264C7D95BF");
     socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
-    socket->connectToService(bluetooth.address(), QBluetoothUuid(strId), QIODevice::ReadWrite);
+    socket->connectToService(bluetooth.address(), QBluetoothUuid(serviceUuid), QIODevice::ReadWrite);
     // connect(socket,SIGNAL(readyRead()), this, SLOT(readBluetoothDataEvent()));
     connect(socket, &QBluetoothSocket::connected, this, &MainWindow::connectedInfo);
 }
@@ -264,6 +272,7 @@ void MainWindow::connectedInfo()
 {
     addDebugInfo("连接成功！");
 }
+<<<<<<< HEAD
 void MainWindow::addPoint(int value)
 {
     if (pointNum <= 300)
@@ -282,3 +291,5 @@ void MainWindow::addPoint(int value)
         series->append(pointNum, value);
     }
 }
+=======
+>>>>>>> parent of 9150f85 (新增QChart添加数据点)
