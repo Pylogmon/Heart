@@ -59,12 +59,17 @@ void MainWindow::init()
 void MainWindow::addChart()
 {
     series = new QLineSeries();
+<<<<<<< HEAD
     series->append(300, 0);
     series->append(0, 50);
 =======
 void MainWindow::addChart(){
     QLineSeries *series = new QLineSeries();
 >>>>>>> parent of 9150f85 (新增QChart添加数据点)
+=======
+    series->append(80, 0);
+    series->append(0, 80);
+>>>>>>> parent of 3589a41 (linux升级为qt6)
 
     series->append(0, 5);
     series->append(2, 5);
@@ -275,7 +280,7 @@ void MainWindow::connectedInfo()
 <<<<<<< HEAD
 void MainWindow::addPoint(int value)
 {
-    if (pointNum <= 300)
+    if (pointNum <= 80)
     {
         if (pointNum == 0)
         {

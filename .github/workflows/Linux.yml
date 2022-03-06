@@ -13,7 +13,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: '6.2.3'
+          version: '5.15.2'
           host: 'linux'
           arch: 'gcc_64'
           modules: qtcharts
